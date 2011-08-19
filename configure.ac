@@ -1,4 +1,4 @@
-AC_INIT([wayland-wsegl], [0.1], [carsten.munk@gmail.com])
+AC_INIT([wayland-wsegl], [1.0.0], [carsten.munk@gmail.com])
 AM_INIT_AUTOMAKE([1.11 foreign dist-bzip2])
 
 AM_SILENT_RULES([yes])
@@ -15,5 +15,5 @@ PKG_PROG_PKG_CONFIG()
 
 PKG_CHECK_MODULES(WAYLAND,[wayland-server wayland-client])
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile wayland-egl.pc])
 AC_OUTPUT

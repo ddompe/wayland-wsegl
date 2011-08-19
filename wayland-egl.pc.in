@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: wayland-egl
+Description: SGX WSEGL wayland-egl library
+Version: @VERSION@
+Libs: -L${libdir} -lwayland-egl -lpvr2d
+Cflags: -I${includedir}
