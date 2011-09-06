@@ -79,7 +79,7 @@ am__base_list = \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libwayland_egl_la_DEPENDENCIES =
-am_libwayland_egl_la_OBJECTS = waylandwsegl.lo wayland-drm-protocol.lo
+am_libwayland_egl_la_OBJECTS = wayland-egl.lo
 libwayland_egl_la_OBJECTS = $(am_libwayland_egl_la_OBJECTS)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
@@ -87,6 +87,13 @@ am__v_lt_0 = --silent
 libwayland_egl_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(AM_CFLAGS) $(CFLAGS) $(libwayland_egl_la_LDFLAGS) $(LDFLAGS) \
+	-o $@
+waylandwsegl_la_DEPENDENCIES =
+am_waylandwsegl_la_OBJECTS = waylandwsegl.lo wayland-drm-protocol.lo
+waylandwsegl_la_OBJECTS = $(am_waylandwsegl_la_OBJECTS)
+waylandwsegl_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(AM_CFLAGS) $(CFLAGS) $(waylandwsegl_la_LDFLAGS) $(LDFLAGS) \
 	-o $@
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -114,8 +121,8 @@ am__v_CCLD_0 = @echo "  CCLD  " $@;
 AM_V_GEN = $(am__v_GEN_$(V))
 am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
 am__v_GEN_0 = @echo "  GEN   " $@;
-SOURCES = $(libwayland_egl_la_SOURCES)
-DIST_SOURCES = $(libwayland_egl_la_SOURCES)
+SOURCES = $(libwayland_egl_la_SOURCES) $(waylandwsegl_la_SOURCES)
+DIST_SOURCES = $(libwayland_egl_la_SOURCES) $(waylandwsegl_la_SOURCES)
 DATA = $(pkgconfig_DATA)
 HEADERS = $(noinst_HEADERS)
 ETAGS = etags
@@ -248,11 +255,14 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
-lib_LTLIBRARIES = libwayland-egl.la
-libwayland_egl_la_SOURCES = waylandwsegl.c wayland-drm-protocol.c
-noinst_HEADERS = wsegl.h wayland-egl-priv.h wayland-drm-client-protocol.h
-libwayland_egl_la_LIBADD = -lpvr2d $(WAYLAND_LDFLAGS) 
+lib_LTLIBRARIES = libwayland-egl.la waylandwsegl.la
+libwayland_egl_la_SOURCES = wayland-egl.c
+libwayland_egl_la_LIBADD = $(WAYLAND_LDFLAGS) 
 libwayland_egl_la_LDFLAGS = -version-info 1:0:0
+waylandwsegl_la_SOURCES = waylandwsegl.c wayland-drm-protocol.c
+waylandwsegl_la_LIBADD = -lpvr2d $(WAYLAND_LDFLAGS) 
+waylandwsegl_la_LDFLAGS = -module -avoid-version
+noinst_HEADERS = wsegl.h wayland-egl-priv.h wayland-drm-client-protocol.h
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = wayland-egl.pc
 EXTRA_DIST = wayland-egl.pc.in
@@ -347,6 +357,8 @@ clean-libLTLIBRARIES:
 	done
 libwayland-egl.la: $(libwayland_egl_la_OBJECTS) $(libwayland_egl_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(libwayland_egl_la_LINK) -rpath $(libdir) $(libwayland_egl_la_OBJECTS) $(libwayland_egl_la_LIBADD) $(LIBS)
+waylandwsegl.la: $(waylandwsegl_la_OBJECTS) $(waylandwsegl_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(waylandwsegl_la_LINK) -rpath $(libdir) $(waylandwsegl_la_OBJECTS) $(waylandwsegl_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -355,6 +367,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wayland-drm-protocol.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/wayland-egl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/waylandwsegl.Plo@am__quote@
 
 .c.o:
